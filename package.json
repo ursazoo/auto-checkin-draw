@@ -1,0 +1,10 @@
+{
+  "name": "auto-checkin-draw",
+  "version": "1.0.0",
+  "main": "index.js",
+  "license": "MIT",
+  "dependencies": {
+    "axios": "^0.23.0",
+    "got": "^11.8.2"
+  }
+}
