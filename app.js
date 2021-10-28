@@ -68,32 +68,36 @@ const draw = async () => {
 // 签到
 async function checkIn() {
   const { base, api } = config;
-  const result = await axios({
+  const response = await axios({
     method: 'POST',
     url: `${base}${api.checkIn}`,
     headers: {
       cookie
     }
   })
+  const result = response?.data
   console.log(result.data)
-  if (!result || result?.data?.err_no) {
+  console.log(result.err_no)
+  if (!result || result?.err_no) {
     // 签到报错
     console.log('签到报错')
-    handlePush(result?.data?.err_msg)
+    handlePush(result?.err_msg)
   } else {
     // 签到成功
-    handlePush(`签到成功，获得${result?.data?.incr_point}矿石，当前矿石总数为${result?.data?.sum_point}`)
+    handlePush(`签到成功，获得${result?.data?.incr_point ?? ''}矿石，当前矿石总数为${result?.data?.sum_point ?? ''}`)
   }
 
   setTimeout(async () => {
-    const drawResult = await draw();
-    if (!drawResult || drawResult?.data?.err_no) {
+    const drawResponse = await draw();
+    const result = drawResponse?.data;
+    console.log(result.data)
+    if (!result || result?.err_no) {
       // 免费抽奖报错
       console.log('免费抽奖报错')
-      handlePush(drawResult?.data?.err_msg)
+      handlePush(result?.err_msg)
       return;
     } else {
-      handlePush(drawResult?.data)
+      handlePush(result?.data?.lottery_name)
     }
   }, 1000)
 }
