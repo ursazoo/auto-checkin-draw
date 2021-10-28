@@ -1,5 +1,6 @@
 const got = require('got')
 const axios = require('axios')
+const schedule = require('node-schedule')
 
 const { cookie, aid, uuid, _signature, PUSH_PLUS_TOKEN } = require('./config.local')
 
@@ -115,4 +116,13 @@ async function handlePush(desp) {
   })
 }
 
-checkIn()
+function scheduleObjectLiteralSyntax() {
+  console.log('开始定时执行')
+  // 每天早上7点自动执行
+  schedule.scheduleJob('* * 7 * * *', () => {
+    checkIn()
+    console.log('执行签到：scheduleObjectLiteralSyntax:' + new Date());
+  });
+}
+
+scheduleObjectLiteralSyntax()
